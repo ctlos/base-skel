@@ -1,0 +1,15 @@
+## Options
+
+set constantshow
+set linenumbers
+set locking
+set multibuffer
+set showcursor
+set smarthome
+set softwrap
+set tabsize 4
+set whitespace ">·"
+
+## Highlight
+
+include ~/.nano/syntax/ALL.nanorc
