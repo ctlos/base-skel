@@ -271,16 +271,24 @@ alias h="htop"
 
 # LANG=C pacman -Sl | awk '/\[installed\]$/ {print $2}' > ~/.pkglist.txt
 # LANG=C pacman -Sl | awk '/\[installed\]$/ {print $1 "/" $2 "-" $3}' > ~/.pkglist.txt
-alias pkglist="pacman -Qneq > ~/.pkglist.txt"
+alias plist='pacman -Qeqt && echo "\\n$(pacman -Qeqt | wc -l)"'
+# dependencies
+alias plistd='pacman -Qeq && echo "\\n$(pacman -Qeq | wc -l)"'
+alias pkglist="pacman -Qeq > ~/.pkglist.txt"
+alias listaur="pacman -Qmeq"
 alias aurlist="pacman -Qmeq > ~/.aurlist.txt"
 
-alias packey="sudo pacman-key --init && sudo pacman-key --populate && sudo pacman-key --refresh-keys --keyserver hkps://keyserver.ubuntu.com && sudo pacman -Syy"
+alias pqo="pacman -Qqo"
+
+alias pl="pacman -Slq | fzf --preview 'pacman -Si {}' --layout=reverse"
+alias pkey="sudo pacman-key --init && sudo pacman-key --populate && sudo pacman-key --refresh-keys --keyserver hkp://keys.gnupg.net && sudo pacman -Syy"
 alias y="yay -S"
 alias yn="yay -S --noconfirm"
-alias yl="yay -S --noconfirm --needed - < ~/.pkglist.txt"
+alias yl="yay -S --noconfirm - < ~/.pkglist.txt"
 alias ys="yay"
 alias ysn="yay --noconfirm"
 alias yo="yay -S --overwrite='*'"
+alias yno="yay -S --noconfirm --overwrite='*'"
 alias yU="yay -U"
 alias yUo="yay -U --overwrite='*'"
 alias yc="yay -Sc"
@@ -288,12 +296,14 @@ alias ycc="yay -Scc"
 alias yy="yay -Syy"
 alias yu="yay -Syyu"
 alias yun="yay -Syyu --noconfirm"
+alias yuno="yay -Syyu --noconfirm --overwrite='*'"
 alias yr="yay -R"
 alias yrs="yay -Rs"
 alias yrsn="yay -Rsn"
+alias yrdd="yay -Rdd"
 alias yrn="yay -R --noconfirm"
 alias ynskip='yay --noconfirm --mflags "--nocheck --skipchecksums --skippgpcheck"'
-alias ygpg='yay --noconfirm --gpgflags "--keyserver keys.gnupg.net"'
+alias yngpg='yay --noconfirm --gpgflags "--keyserver keys.gnupg.net"'
 
 # alias pres="sudo pacman -S $(pacman -Qqn)"
 # alias yrsnp="yay -Rsn $(pacman -Qdtq)"
