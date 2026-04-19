@@ -257,10 +257,15 @@ alias -s {png,jpg,tiff,bmp,gif}="viewnior"
 # alias -s {conf,txt}="nvim"
 # alias {aurman,pikaur,trizen,yaourt}="yay"
 
+function s() {
+  subl -a "$1" &
+}
+function sudos() {
+  sudo subl -a "$1" &
+}
+
 alias mi="micro"
 alias smi="sudo micro"
-alias s="subl3"
-alias ss="sudo subl3"
 alias tm="tmux attach || tmux new -s work"
 alias tmd="tmux detach"
 alias tmk="tmux kill-server"
@@ -271,11 +276,9 @@ alias h="htop"
 
 # LANG=C pacman -Sl | awk '/\[installed\]$/ {print $2}' > ~/.pkglist.txt
 # LANG=C pacman -Sl | awk '/\[installed\]$/ {print $1 "/" $2 "-" $3}' > ~/.pkglist.txt
-alias plist='pacman -Qeqt && echo "\\n$(pacman -Qeqt | wc -l)"'
-# dependencies
-alias plistd='pacman -Qeq && echo "\\n$(pacman -Qeq | wc -l)"'
-alias pkglist="pacman -Qeq > ~/.pkglist.txt"
-alias listaur="pacman -Qmeq"
+alias plist="comm -12 <(pacman -Qeq | sort) <(pacman -Qnq | sort) | awk '{print} END{print \"\n\" NR}'"
+alias pkglist="comm -12 <(pacman -Qeq | sort) <(pacman -Qnq | sort) > ~/.pkglist.txt"
+alias alist="pacman -Qmeq"
 alias aurlist="pacman -Qmeq > ~/.aurlist.txt"
 
 alias pqo="pacman -Qqo"
@@ -310,6 +313,14 @@ alias yngpg='yay --noconfirm --gpgflags "--keyserver keys.gnupg.net"'
 # alias yal="yay -S --noconfirm --needed $(cat ~/.aurlist.txt)"
 # pacman -Qqo /usr/lib/python3.9/
 
+# top history
+tophist() {
+  cat ~/.zhistory |
+    cut -d ';' -f 2- 2>/dev/null |
+    awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}' |
+    sort -rn |
+    head
+}
 
 
 # распаковать архив не указывая тип распаковщика

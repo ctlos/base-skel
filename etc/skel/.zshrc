@@ -10,11 +10,11 @@ export HISTFILE=~/.zhistory
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# autoload -Uz compinit
-# for dump in ~/.zcompdump(N.mh+24); do
-#   compinit
-# done
-# compinit -C
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 
 # ohmyzsh
 export ZSH="/usr/share/oh-my-zsh"
@@ -43,7 +43,7 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 fi
 
 export TERM="xterm-256color"
-export EDITOR="$([[ -n $DISPLAY && $(command -v subl3) ]] && echo 'subl3' || echo 'nano')"
+export EDITOR="$([[ -n $DISPLAY && $(command -v subl) ]] && echo 'subl' || echo 'nano')"
 export BROWSER="firefox"
 export XDG_CONFIG_HOME="$HOME/.config"
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -51,8 +51,9 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # export PF_INFO="ascii os kernel wm shell pkgs memory palette"
 # export PF_ASCII="arch"
 
-# export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
+[[ $(command -v bat) ]] && export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
 
+[[ -s ~/.env ]] && . ~/.env
 [[ -f ~/.alias_zsh ]] && . ~/.alias_zsh
 
 # export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
@@ -63,5 +64,27 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # export PATH="$PATH:$GOBIN"
 
 # export PATH=$HOME/opt/diode:$PATH
+
+CODESTATS_PLUG_PATH="$HOME/.zsh/plugins/codestats.plugin.zsh"
+[[ -s $CODESTATS_PLUG_PATH ]] && . $CODESTATS_PLUG_PATH
+
+export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# Lazy load
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  NODE_GLOBALS=(`find $NVM_DIR/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+  NODE_GLOBALS+=("node")
+  NODE_GLOBALS+=("nvm")
+  # Lazy-loading nvm + npm on node globals
+  load_nvm () {
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    export NODE_PATH=$(nvm which current)
+    # export NPM_PATH=$(which npm)
+  }
+  # Making node global trigger the lazy loading
+  for cmd in "${NODE_GLOBALS[@]}"; do
+    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+  done
+fi
 
 # zprof

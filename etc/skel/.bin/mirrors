@@ -7,13 +7,13 @@ fi
 
 if [ "$1" = "-lc" ]; then
   # mirrors -lc
-  sudo reflector -c $check_country,ru,ua,pl,gb -p https,http -a 12 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
+  sudo reflector -p "https,http" -c "kz,pl,cn,de,$check_country" --sort rate -l 20 -f 10 --threads 5 --save /etc/pacman.d/mirrorlist
 elif [ "$1" = "-c" ]; then
   # mirrors -c
-  sudo reflector -c $check_country -p https,http -a 12 --sort score -f 20 --save /etc/pacman.d/mirrorlist
+  sudo reflector -p "https,http" -c "$check_country" --sort rate -l 20 -f 10 --threads 5 --save /etc/pacman.d/mirrorlist
 else
   # mirrors
-  sudo reflector --verbose -p "http,https" -l 10 --sort rate --save /etc/pacman.d/mirrorlist
+  sudo reflector --verbose -p "https,http" --sort rate -l 20 -f 10 --threads 5 --save /etc/pacman.d/mirrorlist
 fi
 
 cat /etc/pacman.d/mirrorlist
