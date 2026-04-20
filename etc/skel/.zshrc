@@ -34,22 +34,15 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 export FZF_DEFAULT_COMMAND="fd --type file --color=always --follow --hidden --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # export FZF_DEFAULT_OPTS="--ansi"
-export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --preview 'file {}' --preview-window down:1"
-export FZF_COMPLETION_TRIGGER="~~"
-
-# tilix set
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  source /etc/profile.d/vte.sh
-fi
+# export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --preview 'file {}' --preview-window down:1"
+export FZF_DEFAULT_OPTS="--border"
+# export FZF_COMPLETION_TRIGGER="~~"
 
 export TERM="xterm-256color"
 export EDITOR="$([[ -n $DISPLAY && $(command -v subl) ]] && echo 'subl' || echo 'nano')"
 export BROWSER="firefox"
 export XDG_CONFIG_HOME="$HOME/.config"
 export _JAVA_AWT_WM_NONREPARENTING=1
-
-# export PF_INFO="ascii os kernel wm shell pkgs memory palette"
-# export PF_ASCII="arch"
 
 [[ $(command -v bat) ]] && export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat -l man -p'"
 
@@ -62,8 +55,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # export GOPATH=$HOME/.go
 # export GOBIN=$GOPATH/bin
 # export PATH="$PATH:$GOBIN"
-
-# export PATH=$HOME/opt/diode:$PATH
 
 CODESTATS_PLUG_PATH="$HOME/.zsh/plugins/codestats.plugin.zsh"
 [[ -s $CODESTATS_PLUG_PATH ]] && . $CODESTATS_PLUG_PATH
