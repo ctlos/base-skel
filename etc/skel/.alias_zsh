@@ -117,8 +117,8 @@ abuild () {
 }
 
 
-alias neofetch="clear; fastfetch"
-alias fastfetch="clear; fastfetch"
+alias fastfetch="fastfetch"
+alias ff="fastfetch"
 # alias neoa="neofetch --ascii ~/.config/neofetch/mario"
 # alias neo="neofetch --w3m ~/.config/neofetch/cnr.png"
 # alias neo="neofetch --kitty ~/.config/neofetch/cn.jpg"
